@@ -45,7 +45,6 @@ public class QRCodeViewController: UIViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated);
         
-        self.startAnimation();
     }
     
     override public func viewWillDisappear(animated: Bool) {
@@ -61,7 +60,7 @@ public class QRCodeViewController: UIViewController {
     }
     
     func didBecomeActive() {
-        //self.startAnimation();
+        self.startAnimation();
         
     }
     
@@ -134,12 +133,12 @@ public class QRCodeViewController: UIViewController {
         self.animImageView = UIImageView();
         // 起始位置看不见
         self.animImageView.frame = CGRectMake(0, -size.height, size.width, size.height);
-        self.animImageView.image = UIImage(named: "scan_net");
+        self.animImageView.image = UIImage(named: "ic_scan_grid");
         
         previewView.addSubview(self.animImageView);
         
         let cornerSize:CGFloat = 18;
-        let cornerImage = UIImage(named: "scan_corner");
+        let cornerImage = UIImage(named: "ic_scan_corner");
         let topLeft = UIButton(type: .Custom);
         topLeft.frame = CGRectMake(0, 0, cornerSize, cornerSize);
         topLeft.setImage(cornerImage, forState: UIControlState.Normal);
@@ -218,13 +217,10 @@ public class QRCodeViewController: UIViewController {
             let deviceInput = try AVCaptureDeviceInput(device: device);
             
             let output = AVCaptureMetadataOutput();
-            // 这里要计算出扫描区域
-            // 指定预览区域中敢兴趣的区域来扫描
+            // 指定预览区域中敢兴趣的区域来扫描 --- 这里千万注意，比例需要水平与垂直方向交换参数
+            output.rectOfInterest = CGRectMake((1 - ratioHeight - (1 - contentHeightRatio)) / 2.0, ratiox, ratioHeight, 1 - ratiox * 2);
             
-            //NSLog("%f   %f   %f   %f", ratiox, (1 - ratioHeight - (1 - contentHeightRatio)) / 2.0, 1 - ratiox * 2, ratioHeight);
-            //output.rectOfInterest = CGRectMake(ratiox, (1 - ratioHeight - (1 - contentHeightRatio)) / 2.0, 1 - ratiox * 2, ratioHeight);
-            
-            output.rectOfInterest = CGRectMake(0, 0, 1, 1);
+            //output.rectOfInterest = CGRectMake(0, 0, 1, 1);
             output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue());
             
             self.session = AVCaptureSession();

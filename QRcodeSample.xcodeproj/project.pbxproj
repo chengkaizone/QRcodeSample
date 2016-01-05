@@ -13,8 +13,8 @@
 		7E3FA88F1C3B645800FC8DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA88E1C3B645800FC8DB9 /* Assets.xcassets */; };
 		7E3FA8921C3B645900FC8DB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA8901C3B645900FC8DB9 /* LaunchScreen.storyboard */; };
 		7E3FA89A1C3B7A1400FC8DB9 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FA8991C3B7A1400FC8DB9 /* UIViewExtension.swift */; };
-		7E3FA89C1C3B805B00FC8DB9 /* scan_net@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA89B1C3B805B00FC8DB9 /* scan_net@2x.png */; };
-		7E3FA89E1C3B80A600FC8DB9 /* scan_corner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA89D1C3B80A600FC8DB9 /* scan_corner@2x.png */; };
+		7E3FA89C1C3B805B00FC8DB9 /* ic_scan_grid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA89B1C3B805B00FC8DB9 /* ic_scan_grid@2x.png */; };
+		7E3FA89E1C3B80A600FC8DB9 /* ic_scan_corner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3FA89D1C3B80A600FC8DB9 /* ic_scan_corner@2x.png */; };
 		7E3FA8A01C3B9CB300FC8DB9 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FA89F1C3B9CB300FC8DB9 /* QRCodeViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,8 +27,8 @@
 		7E3FA8911C3B645900FC8DB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7E3FA8931C3B645900FC8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E3FA8991C3B7A1400FC8DB9 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		7E3FA89B1C3B805B00FC8DB9 /* scan_net@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_net@2x.png"; sourceTree = "<group>"; };
-		7E3FA89D1C3B80A600FC8DB9 /* scan_corner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_corner@2x.png"; sourceTree = "<group>"; };
+		7E3FA89B1C3B805B00FC8DB9 /* ic_scan_grid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_scan_grid@2x.png"; sourceTree = "<group>"; };
+		7E3FA89D1C3B80A600FC8DB9 /* ic_scan_corner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_scan_corner@2x.png"; sourceTree = "<group>"; };
 		7E3FA89F1C3B9CB300FC8DB9 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,8 +69,8 @@
 				7E3FA8901C3B645900FC8DB9 /* LaunchScreen.storyboard */,
 				7E3FA8931C3B645900FC8DB9 /* Info.plist */,
 				7E3FA8991C3B7A1400FC8DB9 /* UIViewExtension.swift */,
-				7E3FA89B1C3B805B00FC8DB9 /* scan_net@2x.png */,
-				7E3FA89D1C3B80A600FC8DB9 /* scan_corner@2x.png */,
+				7E3FA89B1C3B805B00FC8DB9 /* ic_scan_grid@2x.png */,
+				7E3FA89D1C3B80A600FC8DB9 /* ic_scan_corner@2x.png */,
 				7E3FA89F1C3B9CB300FC8DB9 /* QRCodeViewController.swift */,
 			);
 			path = QRcodeSample;
@@ -135,10 +135,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E3FA8921C3B645900FC8DB9 /* LaunchScreen.storyboard in Resources */,
-				7E3FA89E1C3B80A600FC8DB9 /* scan_corner@2x.png in Resources */,
+				7E3FA89E1C3B80A600FC8DB9 /* ic_scan_corner@2x.png in Resources */,
 				7E3FA88F1C3B645800FC8DB9 /* Assets.xcassets in Resources */,
 				7E3FA88D1C3B645800FC8DB9 /* Main.storyboard in Resources */,
-				7E3FA89C1C3B805B00FC8DB9 /* scan_net@2x.png in Resources */,
+				7E3FA89C1C3B805B00FC8DB9 /* ic_scan_grid@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
