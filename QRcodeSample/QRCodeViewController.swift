@@ -25,6 +25,9 @@ public class QRCodeViewController: UIViewController {
     private var animImageView:UIImageView!;
     private var keyAnimation:CAKeyframeAnimation?;
     
+    private var bottomBar:UIView!;// 底部预留的空白区域
+    
+    private var hasNavigationBar:Bool = false;
     override public func viewDidLoad() {
         super.viewDidLoad();
         self.view.clipsToBounds = true;
@@ -34,6 +37,7 @@ public class QRCodeViewController: UIViewController {
         self.setupMaskView();
         self.setupPreviewView();
         
+        print("qrframe:   \(self.view.frame)");
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -45,6 +49,7 @@ public class QRCodeViewController: UIViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated);
         
+        self.startAnimation();
     }
     
     override public func viewWillDisappear(animated: Bool) {
@@ -59,6 +64,11 @@ public class QRCodeViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: kApplicationDidBecomeActive, object: nil);
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews();
+        
+        print("qrframe2:   \(self.view.frame)");
+    }
     func didBecomeActive() {
         self.startAnimation();
         
@@ -70,10 +80,16 @@ public class QRCodeViewController: UIViewController {
     }
     
     // 关联到父控制器
-    public func attachToViewController(controller:UIViewController, delegate:QRCodeViewControllerDelegate?) {
+    public func attachToViewController(controller:UIViewController, hasNavigationBar:Bool, delegate:QRCodeViewControllerDelegate?) {
+        
+        self.attachToViewController(controller, rootView: controller.view, hasNavigationBar: hasNavigationBar, delegate: delegate);
+    }
+    
+    public func attachToViewController(controller:UIViewController, rootView:UIView, hasNavigationBar:Bool, delegate:QRCodeViewControllerDelegate?){
+        self.hasNavigationBar = hasNavigationBar;
         controller.addChildViewController(self);
         self.delegate = delegate;
-        controller.view.addSubview(self.view);
+        rootView.insertSubview(self.view, atIndex: 0);
         
         self.didMoveToParentViewController(controller);
     }
@@ -104,7 +120,9 @@ public class QRCodeViewController: UIViewController {
         //maskView.backgroundColor = UIColor.redColor();
         
         let size = contentSize();
-        let bottomSize = self.view.height * (1 - contentHeightRatio);
+        
+        let topOffset:CGFloat = hasNavigationBar ? 64 : 0;
+        let bottomSize = (self.view.height - topOffset) * (1 - contentHeightRatio);
         
         // 计算出离顶边的距离
         let borderWidth = (self.view.height * contentHeightRatio - size.height) / 2.0 + bottomSize;
@@ -114,7 +132,7 @@ public class QRCodeViewController: UIViewController {
         
         // 计算出内容尺寸
         maskView.frame = CGRectMake(0, 0, size.width + borderWidth * 2, size.height + borderWidth * 2);
-        maskView.center = CGPointMake(self.view.center.x, self.view.center.y - bottomSize / 2.0);
+        maskView.center = CGPointMake(self.view.center.x, self.view.center.y - bottomSize / 2.0 - topOffset / 2.0);
         
         self.view.addSubview(maskView);
     }
@@ -123,7 +141,9 @@ public class QRCodeViewController: UIViewController {
     func setupPreviewView() {
         let size = contentSize();
         let originX = (self.view.width - size.width) / 2;
-        let originY = (self.view.height * contentHeightRatio - size.height) / 2;
+        
+        let topOffset:CGFloat = hasNavigationBar ? 64 : 0;
+        let originY = ((self.view.height - topOffset) * contentHeightRatio - size.height) / 2;
         let previewView = UIView();
         previewView.clipsToBounds = true;
         previewView.frame = CGRectMake(originX, originY, size.width, size.height);
@@ -179,14 +199,15 @@ public class QRCodeViewController: UIViewController {
         
         // 控制Y轴上的循环运动
         let keyAnimation = CAKeyframeAnimation(keyPath: "transform.translation.y");
-        
+        keyAnimation.delegate = self;
         keyAnimation.values = [0, size.height];
         keyAnimation.keyTimes = [0.0, 1.0];
         keyAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
         keyAnimation.duration = 1.0;
-        keyAnimation.repeatCount = 10000;
+        keyAnimation.repeatCount = 1000000;
         
-        self.animImageView.layer.addAnimation(keyAnimation, forKey: nil);
+        // 这里必须设置key否则会出现一些问题
+        self.animImageView.layer.addAnimation(keyAnimation, forKey: "scanAnimation");
     }
     
     public func stopAnimation() {
@@ -217,7 +238,10 @@ public class QRCodeViewController: UIViewController {
             let deviceInput = try AVCaptureDeviceInput(device: device);
             
             let output = AVCaptureMetadataOutput();
-            // 指定预览区域中敢兴趣的区域来扫描 --- 这里千万注意，比例需要水平与垂直方向交换参数
+            // 这里要计算出扫描区域
+            // 指定预览区域中敢兴趣的区域来扫描
+            
+            //NSLog("%f   %f   %f   %f", ratiox, (1 - ratioHeight - (1 - contentHeightRatio)) / 2.0, 1 - ratiox * 2, ratioHeight);
             output.rectOfInterest = CGRectMake((1 - ratioHeight - (1 - contentHeightRatio)) / 2.0, ratiox, ratioHeight, 1 - ratiox * 2);
             
             //output.rectOfInterest = CGRectMake(0, 0, 1, 1);
@@ -225,6 +249,7 @@ public class QRCodeViewController: UIViewController {
             
             self.session = AVCaptureSession();
             self.session.sessionPreset = AVCaptureSessionPresetHigh;
+            
             self.session.addInput(deviceInput);
             self.session.addOutput(output);
             
@@ -241,6 +266,14 @@ public class QRCodeViewController: UIViewController {
             NSLog("error: %@", error.description);
         }
         
+    }
+    
+    public override func animationDidStart(anim: CAAnimation) {
+        // NSLog("animationDidStart:", "");
+    }
+    
+    public override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        // NSLog("animationDidStop:", "");
     }
     
 }

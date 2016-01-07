@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         self.qrcodeControl = QRCodeViewController();
-        self.qrcodeControl.attachToViewController(self, delegate: self);
+        self.qrcodeControl.attachToViewController(self, hasNavigationBar: false, delegate: self);
         
     }
     
