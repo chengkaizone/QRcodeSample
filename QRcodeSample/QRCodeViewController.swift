@@ -204,7 +204,7 @@ public class QRCodeViewController: UIViewController {
         keyAnimation.keyTimes = [0.0, 1.0];
         keyAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
         keyAnimation.duration = 1.0;
-        keyAnimation.repeatCount = 1000000;
+        keyAnimation.repeatCount = Float.infinity;
         
         // 这里必须设置key否则会出现一些问题
         self.animImageView.layer.addAnimation(keyAnimation, forKey: "scanAnimation");
